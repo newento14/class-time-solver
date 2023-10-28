@@ -1,0 +1,23 @@
+{
+  "name": "Classtime solver",
+  "version": "1.0",
+  "manifest_version": 3,
+  "host_permissions": ["https://www.classtime.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.classtime.com/*"],
+      "js": ["contentScript.js"]
+    }
+  ],
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "scripting",
+    "storage",
+    "webRequest",
+    "webRequestAuthProvider"
+  ]
+}
