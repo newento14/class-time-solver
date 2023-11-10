@@ -1,6 +1,7 @@
-const COOKIE = "";
+const COOKIE =
+  "cgi-ThH1Qo9MQ2s8owlfq6mEqxSKah67XyykgzfT4F0jB5oR9j31LpRzLUmM0oVLyxo3Zg.";
 
-const THEME = "";
+const THEME = "python";
 
 const _fetch = window.fetch.bind(window);
 
@@ -22,32 +23,33 @@ function defaultQuestion(message) {
 
   message += title;
 
-  const testBody = document.getElementsByClassName(
-    "adb06650714607f044107142620f4d43"
-  );
-  if (testBody.length > 0) {
-    for (let i = 0; i < testBody.length; ++i) {
-      const text = testBody[i].firstChild.textContent;
-      if (text !== "" && text !== undefined && text !== null) {
-        message += `${text} `;
+  if (
+    document.getElementById("mainContent").firstChild.firstChild.firstChild
+      .childNodes[1].firstChild.firstChild !== null
+  ) {
+    const testBody =
+      document.getElementById("mainContent").firstChild.firstChild.firstChild
+        .childNodes[1].firstChild.firstChild.firstChild.firstChild.firstChild
+        .firstChild.childNodes;
+    if (testBody.length > 0) {
+      for (let i = 0; i < testBody.length; ++i) {
+        const text = testBody[i].firstChild.textContent;
+        if (text !== "" && text !== undefined && text !== null) {
+          message += `${text} `;
+        }
       }
     }
   }
 
   if (typeArea.length === 0) {
-    message += "Answer options: ";
+    message += " Answer options: ";
 
-    const answers = document.getElementsByClassName(
-      "c061891f8e2f1ba3d4271289ac9ebf5a"
-    );
+    const answers = document.querySelectorAll(
+      '[data-testid="questions-answers-list"'
+    )[0].firstChild.firstChild.childNodes;
     let i = 1;
     for (const x of answers) {
-      if (
-        x.parentElement.parentElement.parentElement.parentElement.parentElement
-          .parentElement.parentElement.parentElement.parentElement.parentElement
-          .parentElement.className === "_1d2ac95b73501ef4115ea90074b49c2d"
-      )
-        message += `${i++})${x.firstChild.textContent}. `;
+      message += `${i++})${x.firstChild.firstChild.lastChild.textContent}. `;
     }
   }
 
@@ -57,17 +59,29 @@ function defaultQuestion(message) {
 function tableQuestion(message, table) {
   message += "Establish compliance. Qustions: ";
   let j = 0;
-  for (let i = table.length / 2; i < table.length; ++i) {
-    message += `${++j}) ${
-      table[i].firstChild.firstChild.firstChild.textContent
-    } `;
+
+  const questions = document.querySelectorAll(
+    '[data-testid="questions-answers-list"'
+  )[0].firstChild.firstChild.childNodes[0].firstChild.firstChild.firstChild
+    .childNodes[1].childNodes;
+
+  for (let i = 0; i < questions.length; ++i) {
+    message += `${++j}) ${questions[i].firstChild.textContent} `;
   }
+
+  const answers = document.querySelectorAll(
+    '[data-testid="questions-answers-list"'
+  )[0].firstChild.firstChild.childNodes[0].firstChild.firstChild.firstChild
+    .childNodes[0].firstChild.childNodes;
   message += "Answers: ";
+
   j = 0;
-  for (let i = 0; i < table.length / 2; ++i) {
-    message += `${++j}) ${
-      table[i].firstChild.firstChild.firstChild.textContent
-    } `;
+  for (let i = 0; i < answers.length; ++i) {
+    const text = answers[i].textContent;
+    console.log(text);
+    if (text !== "") {
+      message += `${++j}) ${answers[i].firstChild.textContent} `;
+    }
   }
 
   return message;
@@ -110,12 +124,10 @@ function tableQuestion(message, table) {
         THEME +
         " test. Please write only correct answer. Please write your answer in Ukrainian language ";
 
-      const table = document.getElementsByClassName(
-        "c061891f8e2f1ba3d4271289ac9ebf5a ea1ec5644fcb2b359aade40392aa34d7"
-      );
+      const table = document.getElementsByTagName("table");
 
       if (table.length > 0) {
-        message = tableQuestion(message, table);
+        message = tableQuestion(message);
       } else {
         message = defaultQuestion(message);
       }
