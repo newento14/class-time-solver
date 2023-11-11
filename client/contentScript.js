@@ -1,7 +1,7 @@
 const COOKIE =
-  "cgi-ThH1Qo9MQ2s8owlfq6mEqxSKah67XyykgzfT4F0jB5oR9j31LpRzLUmM0oVLyxo3Zg.";
+  "";
 
-const THEME = "python";
+const THEME = "";
 
 const _fetch = window.fetch.bind(window);
 
